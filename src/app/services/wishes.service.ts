@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { List } from '../models/list.model';
 
@@ -7,11 +8,40 @@ import { List } from '../models/list.model';
 export class WishesService {
 
   public lists: List[] = [];
-  constructor() { 
-    const list1 = new List('Test list 1');
-    const list2 = new List('Test list 2');
+  constructor() {
+    this.loadStorage();
+  }
 
-    this.lists.push(list1,list2);
-    
+  createList(title: string) {
+    const newList = new List(title);
+    this.lists.push(newList);
+    this.saveStorage();
+
+    return newList.id;
+  }
+
+  eraseList(list: List) {
+
+    this.lists = this.lists.filter(listData => listData.id !== list.id);
+    this.saveStorage();
+
+  }
+
+  getList(id: string | number) {
+    id = Number(id);
+
+    return this.lists.find(listData => listData.id === id);
+  }
+
+  saveStorage() {
+    localStorage.setItem('data', JSON.stringify(this.lists))
+  }
+
+  loadStorage() {
+    if (localStorage.getItem('data')) {
+      this.lists = JSON.parse(localStorage.getItem('data'));
+    } else {
+      this.lists = [];
+    }
   }
 }
