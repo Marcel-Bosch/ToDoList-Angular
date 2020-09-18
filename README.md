@@ -1,4 +1,4 @@
-#ToDo list with Angular and ionic
+# ToDo list with Angular and ionic
 
 Putting into practice all the skills learned on a Udemy's course.
 
